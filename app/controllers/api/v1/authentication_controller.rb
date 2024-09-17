@@ -14,20 +14,24 @@ class Api::V1::AuthenticationController < Api::V1::BaseController
     def register
         user = User.new(register_params)
         if user.save
-          render json: { message: "User registered successfully", user: user }, status: :created
+          render json: { message: "User registered successfully", user: user_response(user) }, status: :created
         else
           render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
         end
     end
       
     private
+
+    def user_response(user)
+      user.as_json(except: [:password_digest, :created_at, :updated_at])
+    end
       
     def register_params
-        params.permit(:name, :email, :password, :username)
+      params.permit(:name, :email, :password, :username)
     end
 
-    def register_params
-      params.require(:user).permit(:name, :email, :password, :username)
+    def login_params
+      params.permit(:email, :password)
     end
 
 end
