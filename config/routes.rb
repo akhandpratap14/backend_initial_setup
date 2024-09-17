@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       post "/register", to: "authentication#register"
       post "/login", to: "authentication#login"
       get "/block_user_update", to: "users#block_user_update"
+      get "/lambda_user", to: "users#lamba_user"
     end
   end
 
